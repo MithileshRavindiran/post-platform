@@ -1,5 +1,5 @@
 import { Duration, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
-import { InstanceClass, InstanceSize, InstanceType, Vpc } from "aws-cdk-lib/aws-ec2";
+import { InstanceClass, InstanceSize, InstanceType, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { CfnDBCluster, Credentials, DatabaseCluster, DatabaseClusterEngine, DatabaseInstance, DatabaseInstanceEngine, PostgresEngineVersion, ServerlessCluster } from "aws-cdk-lib/aws-rds";
 import { Construct } from "constructs";
 import { DatabaseStackProps } from "./props/database-stack-props";
@@ -13,10 +13,14 @@ export class DatabaseStack extends Stack {
             vpcId: dbProps?.vpcId
         })
 
+
         const dbInstance = new DatabaseInstance(this, 'db-instance', {
             vpc,
+            vpcSubnets: {
+                subnetType: SubnetType.PUBLIC,
+              },
             engine: DatabaseInstanceEngine.postgres({
-              version: PostgresEngineVersion.VER_13_1,
+              version: PostgresEngineVersion.VER_14
             }),
             instanceType: InstanceType.of(
               InstanceClass.BURSTABLE3,

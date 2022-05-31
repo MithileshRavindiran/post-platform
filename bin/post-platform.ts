@@ -29,3 +29,4 @@ new DatabaseStack(app, 'DatabaseStack', {
 }, {
   vpcId: 'vpc-a43991dd'
 })
+app.synth;
