@@ -7,7 +7,7 @@ import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { AccessLogFormat, Integration, IntegrationType, LogGroupLogDestination, MethodLoggingLevel, RequestValidator, RestApi } from 'aws-cdk-lib/aws-apigateway';
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
-import * as model from './model/model';
+import * as model from '../model/model';
 
 export class PostPlatformStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
