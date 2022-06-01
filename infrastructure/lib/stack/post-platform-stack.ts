@@ -1,7 +1,7 @@
 import { CfnOutput, Duration, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
-import { Function, InlineCode, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Function, Code, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
 import { LambdaFunction } from 'aws-cdk-lib/aws-events-targets';
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
@@ -13,10 +13,14 @@ export class PostPlatformStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+
     const lambda = new Function(this, "MyEventProcessor", {
-      code: new InlineCode("def main(event, context):\n\tprint(event)\n\treturn {'statusCode': 200, 'body': 'Hello, World'}"),
-      handler: "index.main",
-      runtime: Runtime.PYTHON_3_9
+      // code: new InlineCode("def main(event, context):\n\tprint(event)\n\treturn {'statusCode': 200, 'body': 'Hello, World'}"),
+      // handler: "index.main",
+      // runtime: Runtime.PYTHON_3_9
+        code: Code.fromAsset("../../../functions/target/functions.jar"),
+        handler: "com.myorg.FunctionHandler::handleRequest",
+        runtime: Runtime.JAVA_11
     })
 
    const bus = new EventBus(this, "MyLanguageBus")
